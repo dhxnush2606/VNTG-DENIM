@@ -1,69 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ProductCard } from "@/components/storefront/product-card";
+import { SiteFooter } from "@/components/storefront/site-footer";
+import { SiteHeader } from "@/components/storefront/site-header";
+import { fits } from "@/features/catalog/catalog-data";
+import { getPublicFeaturedProducts } from "@/features/catalog/public-catalog";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+export const instant = false;
+export default async function Home() {
+  const featured = await getPublicFeaturedProducts();
+  return <><SiteHeader /><main>
+    <section className="border-b border-line bg-ink px-5 py-20 text-paper sm:px-8 sm:py-28"><div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">Raw denim / India</p><h1 className="mt-5 max-w-3xl text-5xl font-medium leading-[0.94] tracking-[-0.06em] sm:text-7xl">DENIM WITH A LIFE AHEAD OF IT.</h1></div><div className="border-l border-zinc-700 pl-5"><p className="max-w-sm text-base leading-7 text-zinc-300">Thoughtful fits. Honest fabric. A pair that becomes unmistakably yours with every wear.</p><div className="mt-8 flex flex-wrap gap-3"><Link className="bg-paper px-5 py-3 text-xs font-bold uppercase tracking-[0.13em] text-ink" href="#ready-made">Shop ready made</Link><Link className="border border-zinc-600 px-5 py-3 text-xs font-bold uppercase tracking-[0.13em]" href="#customization">Start a custom pair</Link></div></div></div></section>
+    <section className="border-b border-line px-5 py-16 sm:px-8" id="fits"><div className="mx-auto max-w-7xl"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">01 / Shape matters</p><h2 className="mt-3 text-3xl tracking-[-0.05em] sm:text-4xl">EXPLORE THE FITS</h2></div><p className="max-w-sm text-sm leading-6 text-muted">Each study makes the silhouette visible from waist to hem. Choose a shape to see only its collection.</p></div><div className="mt-9 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{fits.map((fit) => <Link key={fit.slug} href={`/collections/${fit.slug}`} className="group overflow-hidden border border-line bg-white"><div className="relative aspect-[3/4] overflow-hidden"><Image src={fit.image} alt={fit.imageAlt} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw" /></div><div className="p-5"><p className="text-[11px] font-bold uppercase tracking-[0.13em] text-muted">Explore collection</p><h3 className="mt-2 text-xl tracking-[-0.03em]">{fit.name}</h3><p className="mt-2 text-sm leading-6 text-muted">{fit.description}</p></div></Link>)}</div><p className="mt-4 text-xs leading-5 text-muted">Image note: these are AI-generated fit studies for design development, not photographs of VNTG products. Replace them with licensed product photography in the future admin media library.</p></div></section>
+    <section className="px-5 py-16 sm:px-8" id="ready-made"><div className="mx-auto max-w-7xl"><div className="flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">02 / Ready made</p><h2 className="mt-3 text-3xl tracking-[-0.05em] sm:text-4xl">The first run.</h2></div><Link className="hidden text-xs font-bold uppercase tracking-[0.13em] underline sm:block" href="/collections/straight">Shop by fit</Link></div>{featured.length ? <div className="mt-9 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">{featured.map((product) => <ProductCard key={product.id} product={product} />)}</div> : <p className="mt-9 border border-line p-6 text-sm leading-6 text-muted">No current release. Join the next drop through our official channels.</p>}</div></section>
+    <section className="border-y border-line bg-white px-5 py-16 sm:px-8" id="customization"><div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">03 / Customization</p><h2 className="mt-4 text-4xl leading-none tracking-[-0.05em]">Built around you.</h2></div><div><p className="max-w-md text-lg leading-8">Tell us about your ideal pair. We will start with your measurements, fabric preference, and how you want it to feel.</p><Link className="mt-7 inline-block border-b border-ink pb-1 text-xs font-bold uppercase tracking-[0.13em]" href="#custom-request">Request a consultation</Link></div></div></section>
+  </main><SiteFooter /></>;
 }

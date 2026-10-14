@@ -1,0 +1,3 @@
+export function SiteFooter() {
+  return <footer className="border-t border-line bg-ink px-5 py-10 text-paper sm:px-8"><div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[2fr_1fr_1fr]"><div><p className="text-lg font-bold tracking-[0.18em]">VNTG DENIM</p><p className="mt-3 max-w-xs text-sm leading-6 text-zinc-400">Raw denim made for the long wear. Built slowly, worn honestly.</p></div><div><p className="text-xs font-semibold uppercase tracking-[0.15em]">Customer care</p><p className="mt-3 text-sm text-zinc-400">Shipping & preorders<br />Size guide<br />Contact</p></div><div><p className="text-xs font-semibold uppercase tracking-[0.15em]">Newsletter</p><p className="mt-3 text-sm text-zinc-400">Drop announcements, only.</p></div></div></footer>;
+}
