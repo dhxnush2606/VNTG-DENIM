@@ -25,6 +25,12 @@ export async function getPublicProductBySlug(slug: string) {
   const productsBySlug = await queryProducts((query) => query.eq("slug", slug).limit(1));
   return productsBySlug[0];
 }
+export async function getPublicFits() {
+  if (!hasSupabaseConfiguration()) return fits;
+  await connection(); const { data, error } = await publicClient().from("fit_category_images").select("fit, storage_path, alt_text");
+  if (error) return fits;
+  return fits.map((fit) => { const custom = data.find((image) => image.fit === fit.slug); if (!custom) return fit; const image = productImageUrl(process.env.NEXT_PUBLIC_SUPABASE_URL, custom.storage_path); return image ? { ...fit, image, imageAlt: custom.alt_text || fit.imageAlt } : fit; });
+}
 
 function toStorefrontProduct(product: DatabaseProduct): Product {
   const fit = product.fit as FitSlug;
